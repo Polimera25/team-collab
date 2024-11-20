@@ -1,0 +1,357 @@
+{
+  "name": "Quiz About Friction Previous Year Questions With Solutions",
+  "about": {
+    "@type": "Thing",
+    "name": "Friction Previous Year Questions With Solutions"
+  },
+  "hasPart": [
+    {
+      "@type": "Question",
+      "eduQuestionType": "Multiple choice",
+      "learningResourceType": "Practice problem",
+      "name": "Recollect the concept of Friction Previous Year Questions With Solutions to solve the questions.",
+      "text": "Friction is a __________",
+      "encodingFormat": "text/html",
+      "suggestedAnswer": [
+        {
+          "@type": "Answer",
+          "position": 0,
+          "encodingFormat": "text/html",
+          "text": "Non-contact forc",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 1,
+          "encodingFormat": "text/html",
+          "text": "Magnetic force",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 3,
+          "encodingFormat": "text/html",
+          "text": "None of these",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        }
+      ],
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "position": 2,
+        "encodingFormat": "text/html",
+        "text": "Contact force",
+        "answerExplanation": {
+          "@type": "Comment",
+          "text": "Correct answer is Contact force"
+        },
+        "comment": {
+          "@type": "Comment",
+          "text": "Option C is correct"
+        }
+      },
+      "comment": {
+        "@type": "Comment",
+        "text": "Friction is a __________"
+      }
+    },
+    {
+      "@type": "Question",
+      "eduQuestionType": "Multiple choice",
+      "learningResourceType": "Practice problem",
+      "name": "Recollect the concept of Friction Previous Year Questions With Solutions to solve the questions.",
+      "text": "Rolling friction is smaller than?",
+      "encodingFormat": "text/html",
+      "suggestedAnswer": [
+        {
+          "@type": "Answer",
+          "position": 0,
+          "encodingFormat": "text/html",
+          "text": "Sliding friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 1,
+          "encodingFormat": "text/html",
+          "text": "Static friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 2,
+          "encodingFormat": "text/html",
+          "text": "Fluid friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        }
+      ],
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "position": 3,
+        "encodingFormat": "text/html",
+        "text": "All of the above",
+        "answerExplanation": {
+          "@type": "Comment",
+          "text": "Correct answer is All of the above"
+        },
+        "comment": {
+          "@type": "Comment",
+          "text": "Option D is correct"
+        }
+      },
+      "comment": {
+        "@type": "Comment",
+        "text": "Rolling friction is smaller than?"
+      }
+    },
+    {
+      "@type": "Question",
+      "eduQuestionType": "Multiple choice",
+      "learningResourceType": "Practice problem",
+      "name": "Recollect the concept of Friction Previous Year Questions With Solutions to solve the questions.",
+      "text": "Whenever the surfaces in contact tend to move or move with respect to each other, the force of friction comes into play",
+      "encodingFormat": "text/html",
+      "suggestedAnswer": [
+        {
+          "@type": "Answer",
+          "position": 0,
+          "encodingFormat": "text/html",
+          "text": "only if the objects are solid",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 2,
+          "encodingFormat": "text/html",
+          "text": "only if one of the two objects is liquid",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 3,
+          "encodingFormat": "text/html",
+          "text": "only if one of the two objects is gaseous",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        }
+      ],
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "position": 1,
+        "encodingFormat": "text/html",
+        "text": "irrespective of whether the objects are solid, liquid or gaseous",
+        "answerExplanation": {
+          "@type": "Comment",
+          "text": "Correct answer is irrespective of whether the objects are solid, liquid or gaseous"
+        },
+        "comment": {
+          "@type": "Comment",
+          "text": "Option B is correct"
+        }
+      },
+      "comment": {
+        "@type": "Comment",
+        "text": "Whenever the surfaces in contact tend to move or move with respect to each other, the force of friction comes into play"
+      }
+    },
+    {
+      "@type": "Question",
+      "eduQuestionType": "Multiple choice",
+      "learningResourceType": "Practice problem",
+      "name": "Recollect the concept of Friction Previous Year Questions With Solutions to solve the questions.",
+      "text": "Which of the following kinetic friction is smaller?",
+      "encodingFormat": "text/html",
+      "suggestedAnswer": [
+        {
+          "@type": "Answer",
+          "position": 1,
+          "encodingFormat": "text/html",
+          "text": "Sliding friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 2,
+          "encodingFormat": "text/html",
+          "text": "Limiting friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 3,
+          "encodingFormat": "text/html",
+          "text": "Static friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        }
+      ],
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "position": 0,
+        "encodingFormat": "text/html",
+        "text": "Rolling friction",
+        "answerExplanation": {
+          "@type": "Comment",
+          "text": "Correct answer is Rolling friction"
+        },
+        "comment": {
+          "@type": "Comment",
+          "text": "Option A is correct"
+        }
+      },
+      "comment": {
+        "@type": "Comment",
+        "text": "Which of the following kinetic friction is smaller?"
+      }
+    },
+    {
+      "@type": "Question",
+      "eduQuestionType": "Multiple choice",
+      "learningResourceType": "Practice problem",
+      "name": "Recollect the concept of Friction Previous Year Questions With Solutions to solve the questions.",
+      "text": "The body will move only when",
+      "encodingFormat": "text/html",
+      "suggestedAnswer": [
+        {
+          "@type": "Answer",
+          "position": 0,
+          "encodingFormat": "text/html",
+          "text": "$$Force of friction = applied force$$",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 1,
+          "encodingFormat": "text/html",
+          "text": "Force of friction > applied force",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 3,
+          "encodingFormat": "text/html",
+          "text": "All of the above",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        }
+      ],
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "position": 2,
+        "encodingFormat": "text/html",
+        "text": "Force of friction < applied force",
+        "answerExplanation": {
+          "@type": "Comment",
+          "text": "Correct answer is Force of friction < applied force"
+        },
+        "comment": {
+          "@type": "Comment",
+          "text": "Option C is correct"
+        }
+      },
+      "comment": {
+        "@type": "Comment",
+        "text": "The body will move only when"
+      }
+    },
+    {
+      "@type": "Question",
+      "eduQuestionType": "Multiple choice",
+      "learningResourceType": "Practice problem",
+      "name": "Recollect the concept of Friction Previous Year Questions With Solutions to solve the questions.",
+      "text": "Which of the following kinetic friction is smaller?",
+      "encodingFormat": "text/html",
+      "suggestedAnswer": [
+        {
+          "@type": "Answer",
+          "position": 1,
+          "encodingFormat": "text/html",
+          "text": "Sliding friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 2,
+          "encodingFormat": "text/html",
+          "text": "Limiting friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        },
+        {
+          "@type": "Answer",
+          "position": 3,
+          "encodingFormat": "text/html",
+          "text": "Static friction",
+          "comment": {
+            "@type": "Comment",
+            "text": "It is wrong option."
+          }
+        }
+      ],
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "position": 0,
+        "encodingFormat": "text/html",
+        "text": "Rolling friction",
+        "answerExplanation": {
+          "@type": "Comment",
+          "text": "Correct answer is Rolling friction"
+        },
+        "comment": {
+          "@type": "Comment",
+          "text": "Option A is correct"
+        }
+      },
+      "comment": {
+        "@type": "Comment",
+        "text": "Which of the following kinetic friction is smaller?"
+      }
+    }
+  ]
+}

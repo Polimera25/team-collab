@@ -1,107 +1,117 @@
-import ollama
-import numpy as np
-import time
 from typing import List, Dict
+import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from scrapper import QuestionDatabaseManager
-
+from hugchat import hugchat
+from hugchat.login import Login
 
 class JEEPrepBotDB:
     def __init__(self, db_url: str = "sqlite:///questions.db"):
-        """Initialize the bot with database connection and language model."""
+        """Initialize the bot with database connection."""
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
         self.db_manager = QuestionDatabaseManager(db_url)
-
         self.refresh_questions()  # Load questions at initialization
 
+    def __init__(self, db_url: str = "sqlite:///questions.db", email: str = "arnabdeepnath@gmail.com", passwd: str = "21J@n2014"):
+        """Initialize the bot with database connection and HugChat API."""
+        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.db_manager = QuestionDatabaseManager(db_url)
+        self.cookie_path_dir = "./cookies/"
+        
+        # Log in to HugChat
+        self.login_hugchat(email, passwd)
+        self.chatbot = hugchat.ChatBot(cookies=self.cookies.get_dict())
+        
+        self.refresh_questions()  # Load questions at initialization
+
+    def login_hugchat(self, email: str, passwd: str):
+        """Log in to HugChat and save cookies."""
+        sign = Login(email, passwd)
+        self.cookies = sign.login(cookie_dir_path=self.cookie_path_dir, save_cookies=True)
+
     def answer_question(self, query: str) -> str:
-        """Generate response for student query using the language model."""
+        """Generate response for student query using HugChat."""
         # First, check if a similar question exists in the database
         similar_question = self.find_similar_question(query)
         
         if similar_question:
-            print('Reached Here')
             return self.solve_question_with_llm(similar_question, query)
 
-        # If no similar question found, generate a response from the model
-        return self.generate_response(query)
+        # If no similar question found, search the web using the LLM
+        return self.search_web_with_llm(query)
 
     def find_similar_question(self, query: str):
         """Check for similar questions in the database."""
+        # Implement logic to find a similar question
         similar_problems = self.find_similar_problems(query)
         return similar_problems[0]["problem"] if similar_problems else None
 
     def solve_question_with_llm(self, question: Dict, query: str) -> str:
-        """Use the model to solve the given question."""
-        # Show the similar question first
-        similar_question_prompt = f"Similar Question: {question['question']}\nOptions: {question['options']}\n"
+        """Use the LLM to solve the given question."""
+        llm_prompt = f"Question: {question['question']}\nOptions: {question['options']}\n" \
+                     f"Can you provide a detailed solution to the question: {query}?"
         
-        # Now, ask the model to solve the new question based on the similar one
-        prompt = (
-        f"Here is a similar question with a solution method: {similar_question_prompt}. "
-        f"This solution provides a reliable method for answering questions of this type. "
-        f"To solve the new question, carefully analyze both the similarities and differences between the similar question and the new question. "
-        f"Pay close attention to the specific numbers, coefficients, and conditions in the new question, as these may require an adjustment in the solution method. "
-        f"Do not simply replicate the same method; instead, adapt it based on any new variables, conditions, or parameters present in the new question. "
-        f"Take into account all the changes and ensure your answer reflects those correctly. "
-        f"Question to Solve: {query}. "
-        f"Please provide a one-line solution that follows the same logic as the similar question but has been modified to fit the new details accurately."
-    )
+        response = self.call_hugchat(llm_prompt)
+        return response
 
-
-
-
-        return self.generate_response(prompt)   
-
-    def generate_response(self, prompt: str) -> str:
-        """Generate a response using the Ollama API and estimate the time taken."""
-        start_time = time.time()  # Start the timer
+    def search_web_with_llm(self, query: str) -> str:
+        """Use the LLM to generate a web search result."""
+        llm_prompt = f"I couldn't find a matching question in my database. Can you help me find an answer to this question: {query}?"
         
-        response = ollama.chat(model="qwen2.5:1.5b", messages=[{"role": "user", "content": prompt}])
-        
-        end_time = time.time()  # End the timer
-        response_time = end_time - start_time  # Calculate the time taken
-        
-        # Prepare the response and include the time estimate
-        response_message = response['message']['content']
-        time_estimate = f"\nResponse time: {response_time:.2f} seconds."
-        
-        return response_message + time_estimate
+        response = self.call_hugchat(llm_prompt, web_search=True)
+        return response
 
+    def call_hugchat(self, prompt: str, web_search: bool = False) -> str:
+        """Call HugChat with the provided prompt."""
+        if web_search:
+            message_result = self.chatbot.chat(prompt, web_search=True)
+        else:
+            message_result = self.chatbot.chat(prompt)
+        
+        # Wait until the response is done
+        message_str = message_result.wait_until_done()
+        
+        # If web search is done, print sources
+        if web_search:
+            for source in message_result.web_search_sources:
+                print(source.link)
+                print(source.title)
+        
+        return message_str  # Return the response text
     def refresh_questions(self):
         """Refresh questions from the database."""
         self.questions = self.db_manager.get_all_questions()
-        
-        # Ensure we have embeddings to process
-        if not self.questions:
-            self.embeddings = np.array([])  # Handle case where no questions are available
-            return
-        
         self.embeddings = np.array([q['embedding'] for q in self.questions])
 
-        # Ensure embeddings are 2D
-        if self.embeddings.ndim == 1:
-            self.embeddings = self.embeddings.reshape(1, -1)
-        elif self.embeddings.ndim > 2:
-            self.embeddings = self.embeddings.reshape(self.embeddings.shape[0], -1)
+        # Check the shape of embeddings
+        # print(f"Embeddings shape before reshaping: {self.embeddings.shape}")  # Debugging line
 
+        # Ensure that embeddings are 2D
+        if self.embeddings.ndim == 1:  # If there's only one embedding, reshape it
+            self.embeddings = self.embeddings.reshape(1, -1)
+        elif self.embeddings.ndim > 2:  # If the embeddings are 3D, take the first slice
+            self.embeddings = self.embeddings.reshape(self.embeddings.shape[0], -1)  # Reshape to 2D
+
+        # Check the shape after processing
+        # print(f"Embeddings shape after reshaping: {self.embeddings.shape}")  # Debugging line
+
+    
     def find_similar_problems(self, query: str, top_k: int = 3) -> List[Dict]:
         """Find similar problems based on the query."""
-        # Check if there are any embeddings to compare against
-        if self.embeddings.size == 0:
-            return []
-
+        # Encode the query
         query_embedding = self.embedding_model.encode(query, convert_to_numpy=True)
-
+        
         # Ensure query_embedding is 2D
         if query_embedding.ndim == 1:
-            query_embedding = query_embedding.reshape(1, -1)
-
+            query_embedding = query_embedding.reshape(1, -1)  # Reshape if 1D
+        
+        # Compute similarities
         similarities = cosine_similarity(query_embedding, self.embeddings)
 
+        # Ensure that similarities are in the correct format
         if similarities.ndim > 1:
-            similarities = similarities.flatten()
+            similarities = similarities.flatten()  # Flatten if needed
 
         top_indices = np.argsort(similarities)[-top_k:][::-1]
         similar_problems = []
@@ -120,13 +130,26 @@ class JEEPrepBotDB:
 
         return similar_problems
 
+
+
+
+    
     def add_sample_question(self):
         """Add a specific question to the database."""
-        question_data = {"question": "20 mL of 0.1 M NH 4 OH is mixed with 40 mL of 0.05 M HCl. The pH of the mixture is nearest to ?", "topic": "Chemical Reactions and Stoichiometry", "correct_answer": "6.2", "options": [{"text": "4.2", "is_correct": False, "explanation": None}, {"text": "5.2", "is_correct": True, "explanation": " \\(\x08egin{array}{l}\x08egin{matrix}NH_4OH & + & HCl & \\longrightarrow & NH_4Cl+H_2O \\20\\ mL, 0.1\\ M & & 40\\ mL, 0.05\\ M & & \\2\\ mmoles & & 2\\ mmoles & & 2\\ mmoles \\\\end{matrix}\\end{array} \\) , \\(\x08egin{array}{l} =\x0crac{1}{2}\\left[14-5-\\left(-1.48\right)\right] = 5.24\\end{array} \\)"}, {"text": "6.2", "is_correct": False, "explanation": None}]}
+        question_data = {
+            "question": "A block P of mass m is placed on a horizontal frictionless plane...",
+            "topic": "Friction and Oscillations",
+            "correct_answer": "kA/2",
+            "options": [
+                {"text": "kA/2", "is_correct": True, "explanation": "Explanation for kA/2."},
+                {"text": "kA", "is_correct": False, "explanation": None},
+                {"text": "μ_s mg", "is_correct": False, "explanation": None},
+                {"text": "zero", "is_correct": False, "explanation": None}
+            ]
+        }
         
         # Pass the data to the database manager for processing
         self.db_manager.add_question(question_data)
-
 
     def _generate_solution_steps(self, question: Dict) -> List[str]:
         """Generate solution steps from question data."""
@@ -142,19 +165,49 @@ class JEEPrepBotDB:
             steps.append(f"Explanation: {correct_option['explanation']}")
         
         return steps
-
+    
+    def answer_question(self, query: str) -> str:
+        """Generate response for student query."""
+        similar_problems = self.find_similar_problems(query)
+        
+        if not similar_problems:
+            return "I don't have any similar problems in my database yet."
+        
+        response = "Here's a similar problem I can help you with:\n\n"
+        best_match = similar_problems[0]["problem"]
+        
+        response += f"Question: {best_match['question']}\nOptions:\n"
+        for option in best_match['options']:
+            marker = "✓" if option['is_correct'] else " "
+            response += f"[{marker}] {option['text']}\n"
+        
+        response += "Solution Steps:\n"
+        for i, step in enumerate(best_match['solution_steps'], 1):
+            response += f"{i}. {step}\n"
+        
+        if len(similar_problems) > 1:
+            response += "\nI also found other similar questions you might want to try:"
+            for prob in similar_problems[1:]:
+                response += f"\n- {prob['problem']['question']}"
+        
+        return response
+    
     def close(self):
         """Close database connection."""
         self.db_manager.close()
-
 
 # Example usage
 if __name__ == "__main__":
     bot = JEEPrepBotDB()
     # bot.add_sample_question()
-    query = "The interhalogen compound formed from the reaction of bromine with excess of fluorine is a :"
-
-
+    
+    # Test the bot
+    query = "What is the force between two blocks in oscillation?"
     response = bot.answer_question(query)
     print(response)
+    
+    # Close connections
     bot.close()
+
+
+
